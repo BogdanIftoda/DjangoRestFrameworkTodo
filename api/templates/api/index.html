@@ -56,6 +56,7 @@
 		}
 
 		.task-wrapper{
+			font-size:x-large;
 		  	margin:5px;
 		  	padding: 5px;
 		  	padding:20px;
@@ -84,7 +85,6 @@
 				</form>
 			</div>
 			<div id="task_text">
-				<!-- <ul id="task_text"></ul> -->
 			</div>	
 		</div>
 
@@ -93,18 +93,53 @@
 
     <script type="text/javascript">
 
+		document.addEventListener("DOMContentLoaded", function(){
+			console.log('document ready');
+		
+			var wrapper = document.getElementById('task_text')
+			var url = 'http://127.0.0.1:8000/api/tasks/'
 
+			fetch(url)
+			.then((resp) => resp.json())
+			.then(function(data){
+				console.log('Data:', data)
+
+				var list = data
+				for (var i in list){
+
+					try{
+						document.getElementById(`data-row-${i}`).remove()
+					}catch(err){
+
+					}
+
+					var title = `<span class="title">${list[i].title}</span>`
+
+					var item = `
+						<div id="data-row-${i}" class="task-wrapper flex-wrapper">
+							<div style="flex:7">
+								${title}
+							</div>
+						</div>
+					`
+					wrapper.innerHTML += item
+
+					}
+
+				})
+			});
+			//1 GEt todo list 
+			//for each itemm in  todo list 
+
+			/* var el = document.createElement("div");
+			el.innerHTML = data.notification;
+			el.classList.add('task-wrapper');
+			el.classList.add('flex-wrapper');
+			div.appendChild(el);
+			*/
+			
 		const socket = new WebSocket('ws://' + window.location.host + '/ws/tasks/');
 
-
-		/*var loc = window.location;
-        var wsStart = "ws://"
-        if (loc.protocol === 'https:'){
-            wsStart = 'wss://'
-        }
-        var url = wsStart + loc.host + loc.pathname;
-        console.log(url)
-        var socket = new ReconnectingWebSocket(url);*/
         const div = document.querySelector('#task_text');
 
         socket.onmessage = function(e) {
@@ -113,8 +148,10 @@
 		console.log("parse", data)
 		console.log("notification", data.notification)
 		if(data.event == "New Notification"){
-				var el = document.createElement("h2");
+				var el = document.createElement("div");
 				el.innerHTML = data.notification;
+				el.classList.add('task-wrapper');
+				el.classList.add('flex-wrapper');
 				div.appendChild(el);
 
 		}
@@ -129,48 +166,6 @@
 		socket.onclose = function(e) {
 			console.log("close", e)
 		}
-
-
-		
-/*
-		socket.onopen = function(message) {
-			console.log("open", message);
-		  }
-	
-		socket.onmessage = function(message) {
-			console.log("message", message);
-		}
-	
-		socket.onerror = function(message) {
-			console.log("error", message);
-		}
-	
-		socket.onclose = function(message) {
-			console.log("close", message);
-		}
-
-      socket.onmessage = function(event){
-        const data = JSON.parse(event.data);
-        console.log(data);
-		let messageElem = document.createElement('div');
-		messageElem.textContent = data['message'];
-		//alert(data['message'])
-		document.getElementById('list-wrapper').prepend(messageElem);
-       // document.querySelector('#list-wrapper').innerText += data.message;
-        }
-
-		socket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-		document.forms.publish.onsubmit = function() {
-			let outgoingMessage = this.title.value;
-			//alert(outgoingMessage);
-			socket.send(JSON.stringify({
-                'message': outgoingMessage
-            }));
-		};
-*/
 
 	</script> 
 
