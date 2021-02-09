@@ -9,6 +9,7 @@ from .serializers import TaskSerializer
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
+    
 
 
 def index(request):

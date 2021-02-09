@@ -166,6 +166,43 @@
 		socket.onclose = function(e) {
 			console.log("close", e)
 		}
+/*
+		document.forms.publish.onsubmit = function() {
+			let task = this.title.value;
+			console.log(task)
+		fetch('http://127.0.0.1:8000/api/tasks/', {
+			method: 'post',
+			headers: {
+			  'Accept': 'application/json',
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({title: title})
+		  }).then(res=>res.json())
+			.then(res => console.log(res));
+		}
+*/
+	var form = document.getElementById('form-wrapper')
+		form.addEventListener('submit', function(e){
+			e.preventDefault()
+			console.log('Form submitted')
+			var url = 'http://127.0.0.1:8000/api/tasks/'
+
+	var csrftoken = '{{ csrf_token }}';
+
+	var title = document.getElementById('title').value
+	fetch(url, {
+		method:'POST',
+		headers:{
+			'Content-type':'application/json',
+			'X-CSRFToken':csrftoken,
+		},
+		body:JSON.stringify({'title':title})
+	}
+	).then(function(response){
+		document.getElementById('form').reset()
+	})
+})
+
 
 	</script> 
 
