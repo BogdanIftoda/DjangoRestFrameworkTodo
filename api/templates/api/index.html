@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>TO DO</title>
-<!-- 
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"> 
@@ -64,7 +64,7 @@
 		  	color: #686868;
 			}
 
-	</style> -->
+	</style> 
 
 </head>
 <body>
@@ -83,18 +83,55 @@
 					</div>
 				</form>
 			</div>
-			<div id="list-wrapper">
-			
+			<div id="task_text">
+				<!-- <ul id="task_text"></ul> -->
 			</div>	
 		</div>
 
 	</div>
+
 
     <script type="text/javascript">
 
 
 		const socket = new WebSocket('ws://' + window.location.host + '/ws/tasks/');
 
+
+		/*var loc = window.location;
+        var wsStart = "ws://"
+        if (loc.protocol === 'https:'){
+            wsStart = 'wss://'
+        }
+        var url = wsStart + loc.host + loc.pathname;
+        console.log(url)
+        var socket = new ReconnectingWebSocket(url);*/
+        const div = document.querySelector('#task_text');
+
+        socket.onmessage = function(e) {
+		console.log("message", e)
+		const data = JSON.parse(e.data);
+		console.log("parse", data)
+		console.log("notification", data.notification)
+		if(data.event == "New Notification"){
+				var el = document.createElement("h2");
+				el.innerHTML = data.notification;
+				div.appendChild(el);
+
+		}
+	}
+		socket.onopen = function(e) {
+			console.log("open", e)
+		}
+		socket.onerror = function(e) {
+			console.log("error", e);
+			console.error('Notification socket closed unexpectedly')
+		}
+		socket.onclose = function(e) {
+			console.log("close", e)
+		}
+
+
+		
 /*
 		socket.onopen = function(message) {
 			console.log("open", message);
@@ -112,7 +149,7 @@
 			console.log("close", message);
 		}
 
-     */ socket.onmessage = function(event){
+      socket.onmessage = function(event){
         const data = JSON.parse(event.data);
         console.log(data);
 		let messageElem = document.createElement('div');
@@ -133,7 +170,7 @@
                 'message': outgoingMessage
             }));
 		};
-
+*/
 
 	</script> 
 

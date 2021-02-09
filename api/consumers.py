@@ -1,30 +1,17 @@
-import json
-from channels.generic.websocket import WebsocketConsumer   
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from .models import Task
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 
+class NotificationConsumer(AsyncJsonWebsocketConsumer):
 
-class WSConsumer(WebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+        await self.channel_layer.group_add("task", self.channel_name)
+        print(f"Added {self.channel_name} channel to task")
 
-    def connect(self):
-        self.accept()   
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard("task", self.channel_name)
+        print(f"Removed {self.channel_name} channel to task")
 
-    
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        self.send(text_data=json.dumps({
-            'message': message
-        }))
-    # @receiver(post_save, sender=Task) 
-    # def create_task(sender, instance, created, **kwargs):
-    #     if created:
-    #         Task.objects.create(title=instance)
-
-    # @receiver(post_save, sender=Task) 
-    # def save_task(sender, instance, **kwargs):
-    #     instance.task.save()
-
+    async def user_notification(self, event):
+        await self.send_json(event)
+        print(f"Got message {event} at {self.channel_name}")
