@@ -13,18 +13,8 @@ https://github.com/BogdanIftoda/yukon.git
 
 Install the project dependencies:
 ```bash
-pip install -r requirements.txt
+pipenv install
 ```
-
-create a file named "secrets.sh"
-
-touch secrets.sh (mac and linux)
-
-obtain a secret from MiniWebTool key and add to secrets.sh
-```bash
-export SECRET_KEY='<secret_key>'
-```
-add secrets.sh to .gitignore file 
 
 create a db and add the credentials to settings.py
 

@@ -1,73 +1,80 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>ToDo</title>
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
 	<style type="text/css">
-		body{
-		  background: rgb(54,217,182);
-		  background: linear-gradient(90deg, rgba(54,217,182,1) 0%, rgba(32,152,126,1) 43%, rgba(0,212,255,1) 100%);
+		body {
+			background: rgb(54, 217, 182);
+			background: linear-gradient(90deg, rgba(54, 217, 182, 1) 0%, rgba(32, 152, 126, 1) 43%, rgba(0, 212, 255, 1) 100%);
 		}
 
 
-		h1, h2, h3, h4, h5, p, span, strike{
-		  font-family: 'Montserrat', sans-serif;
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		p {
+			font-family: 'Montserrat', sans-serif;
 
 		}
 
 
-		#task-container{
-		  max-width:600px;
-		  margin:0 auto;
-		  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-		  background-color: #fff;
-		  
-		  margin-top:100px;
-		  margin-bottom:100px;
+		#task-container {
+			max-width: 600px;
+			margin: 0 auto;
+			box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+			background-color: #fff;
 
-		  justify-content: space-around;
-		  align-items: flex-start;
+			margin-top: 100px;
+			margin-bottom: 100px;
+
+			justify-content: space-around;
+			align-items: flex-start;
 
 		}
 
-		#form-wrapper{
-		  position: -webkit-sticky;
-		  position: sticky;
-		  top: 0rem;
-		  border-bottom: 1px solid  #e9e9e9;
-		  background-color: #fff;
-		  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
- 		  padding:40px;
+		#form-wrapper {
+			position: -webkit-sticky;
+			position: sticky;
+			top: 0rem;
+			border-bottom: 1px solid #e9e9e9;
+			background-color: #fff;
+			box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+			padding: 40px;
 		}
 
-		#submit{
-		  background-color: #36d9b6;
-		  border-radius: 0;
-		  border:0;
-		  color: #fff;
+		#submit {
+			background-color: #36d9b6;
+			border-radius: 0;
+			border: 0;
+			color: #fff;
 		}
 
-		.flex-wrapper{
+		.flex-wrapper {
 			display: flex;
 		}
 
-		.task-wrapper{
-			font-size:x-large;
-		  	margin:5px;
-		  	padding: 5px;
-		  	padding:20px;
-		  	cursor: pointer;
-		  	border-bottom: 1px solid  #e9e9e9;
-		  	color: #686868;
-			}
-
-	</style> 
+		.task-wrapper {
+			font-size: x-large;
+			margin: 5px;
+			padding: 5px;
+			padding: 20px;
+			cursor: pointer;
+			border-bottom: 1px solid #e9e9e9;
+			color: #686868;
+		}
+	</style>
 
 </head>
+
 <body>
 	<div class="container">
 
@@ -79,141 +86,118 @@
 							<input id="title" class="form-control" type="text" name="title" placeholder="Add task">
 						</div>
 						<div style="flex: 1">
-							<input id="submit" class="btn" type="submit" >
+							<input id="submit" class="btn" type="submit">
 						</div>
 					</div>
 				</form>
 			</div>
 			<div id="task_text">
-			</div>	
+			</div>
 		</div>
 
 	</div>
 
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 
-		document.addEventListener("DOMContentLoaded", function(){
+		document.addEventListener("DOMContentLoaded", function () {
 			console.log('document ready');
-		
+
 			var wrapper = document.getElementById('task_text')
 			var url = 'http://127.0.0.1:8000/api/tasks/'
 
 			fetch(url)
-			.then((resp) => resp.json())
-			.then(function(data){
-				console.log('Data:', data)
+				.then((resp) => resp.json())
+				.then(function (data) {
+					console.log('Data:', data)
 
-				var list = data.reverse()
-				
-				for (var i in list){
-					console.log("id", list[i]['id'])
-					try{
-						document.getElementById(`data-row-${list[i]['id']}`).remove()
-					}catch(err){
+					var list = data.reverse()
 
-					}
+					for (var i in list) {
+						console.log("id", list[i]['id'])
+						try {
+							document.getElementById(`data-row-${list[i]['id']}`).remove()
+						} catch (err) {
 
-					var title = `<span class="title">${list[i].title}</span>`
+						}
 
-					var item = `
+						var title = `<span class="title">${list[i].title}</span>`
+
+						var item = `
 						<div id="data-row-${list[i]['id']}" class="task-wrapper flex-wrapper">
 							<div style="flex:7">
 								${title}
 							</div>
 						</div>
 					`
-					wrapper.innerHTML += item
+						wrapper.innerHTML += item
 
 					}
 
 				})
-			});
-			//1 GEt todo list 
-			//for each itemm in  todo list 
-
-			/* var el = document.createElement("div");
-			el.innerHTML = data.notification;
-			el.classList.add('task-wrapper');
-			el.classList.add('flex-wrapper');
-			div.appendChild(el);
-			*/
+		});
 		const socket = new WebSocket('ws://' + window.location.host + '/ws/tasks/');
 
-        const div = document.querySelector('#task_text');
+		const div = document.querySelector('#task_text');
 
-        socket.onmessage = function(e) {
-		console.log("message", e)
-		const data = JSON.parse(e.data);
-		console.log("parse", data)
-		console.log("notification", data.notification)
-		console.log("id", data.id)
-		if(data.event == "New Notification"){
+		socket.onmessage = function (e) {
+			console.log("message", e)
+			const data = JSON.parse(e.data);
+			console.log("parse", data)
+			console.log("notification", data.notification)
+			console.log("id", data.id)
+			if (data.event == "New Notification") {
 				var el = document.createElement("div");
 				el.innerHTML = data.notification;
 				el.id = data.id;
 				el.classList.add('task-wrapper');
 				el.classList.add('flex-wrapper');
-				div.insertBefore(el, div.childNodes[0]);
-				//div.appendChild(el); 
+				div.insertBefore(el, div.childNodes[0]); 
+			}
+			else if (data.event == "Delete Task") {
+				var del_item = document.getElementById(`data-row-${data.id}`);
+				console.log("delelte")
+				console.log("delete id", del_item);
+				del_item.remove();
+			}
 		}
-		else if(data.event == "Delete Task"){
-			var del_item = document.getElementById(`data-row-${data.id}`);
-			console.log("delete id", del_item);
-			del_item.remove();
-		}
-	}
-		socket.onopen = function(e) {
+		socket.onopen = function (e) {
 			console.log("open", e)
 		}
-		socket.onerror = function(e) {
+		socket.onerror = function (e) {
 			console.log("error", e);
 			console.error('Notification socket closed unexpectedly')
 		}
-		socket.onclose = function(e) {
+		socket.onclose = function (e) {
 			console.log("close", e)
 		}
-/*
-		document.forms.publish.onsubmit = function() {
-			let task = this.title.value;
-			console.log(task)
-		fetch('http://127.0.0.1:8000/api/tasks/', {
-			method: 'post',
-			headers: {
-			  'Accept': 'application/json',
-			  'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({title: title})
-		  }).then(res=>res.json())
-			.then(res => console.log(res));
-		}
-*/
-	var form = document.getElementById('form-wrapper')
-		form.addEventListener('submit', function(e){
+
+		var form = document.getElementById('form-wrapper')
+		form.addEventListener('submit', function (e) {
 			e.preventDefault()
 			console.log('Form submitted')
 			var url = 'http://127.0.0.1:8000/api/tasks/'
 
-	var csrftoken = '{{ csrf_token }}';
+			var csrftoken = '{{ csrf_token }}';
 
-	var title = document.getElementById('title').value
-	fetch(url, {
-		method:'POST',
-		headers:{
-			'Content-type':'application/json',
-			'X-CSRFToken':csrftoken,
-		},
-		body:JSON.stringify({'title':title})
-	}
-	).then(function(response){
-		document.getElementById('form').reset()
-	})
-})
+			var title = document.getElementById('title').value
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-type': 'application/json',
+					'X-CSRFToken': csrftoken,
+				},
+				body: JSON.stringify({ 'title': title })
+			}
+			).then(function (response) {
+				document.getElementById('form').reset()
+			})
+		})
 
 
-	</script> 
-
+	</script>
 
 
 </body>
-</html> 
+
+</html>
