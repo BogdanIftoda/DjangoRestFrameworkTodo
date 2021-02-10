@@ -15,3 +15,7 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
     async def user_notification(self, event):
         await self.send_json(event)
         print(f"Got message {event} at {self.channel_name}")
+
+    async def delete_task(self, event):
+        await self.send_json(event)
+        print(f"Got message {event} at {self.channel_name}")

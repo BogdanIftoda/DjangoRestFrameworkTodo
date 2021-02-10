@@ -105,10 +105,11 @@
 				console.log('Data:', data)
 
 				var list = data
+				
 				for (var i in list){
-
+					console.log("id", list[i]['id'])
 					try{
-						document.getElementById(`data-row-${i}`).remove()
+						document.getElementById(`data-row-${list[i]['id']}`).remove()
 					}catch(err){
 
 					}
@@ -116,7 +117,7 @@
 					var title = `<span class="title">${list[i].title}</span>`
 
 					var item = `
-						<div id="data-row-${i}" class="task-wrapper flex-wrapper">
+						<div id="data-row-${list[i]['id']}" class="task-wrapper flex-wrapper">
 							<div style="flex:7">
 								${title}
 							</div>
@@ -137,7 +138,6 @@
 			el.classList.add('flex-wrapper');
 			div.appendChild(el);
 			*/
-			
 		const socket = new WebSocket('ws://' + window.location.host + '/ws/tasks/');
 
         const div = document.querySelector('#task_text');
@@ -147,13 +147,19 @@
 		const data = JSON.parse(e.data);
 		console.log("parse", data)
 		console.log("notification", data.notification)
+		console.log("id", data.id)
 		if(data.event == "New Notification"){
 				var el = document.createElement("div");
 				el.innerHTML = data.notification;
+				el.id = data.id;
 				el.classList.add('task-wrapper');
 				el.classList.add('flex-wrapper');
 				div.appendChild(el);
-
+		}
+		else if(data.event == "Delete Task"){
+			var del_item = document.getElementById(`data-row-${data.id}`);
+			console.log("delete id", del_item);
+			del_item.remove();
 		}
 	}
 		socket.onopen = function(e) {
