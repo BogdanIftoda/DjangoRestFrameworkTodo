@@ -104,7 +104,7 @@
 			.then(function(data){
 				console.log('Data:', data)
 
-				var list = data
+				var list = data.reverse()
 				
 				for (var i in list){
 					console.log("id", list[i]['id'])
@@ -154,7 +154,8 @@
 				el.id = data.id;
 				el.classList.add('task-wrapper');
 				el.classList.add('flex-wrapper');
-				div.appendChild(el);
+				div.insertBefore(el, div.childNodes[0]);
+				//div.appendChild(el);
 		}
 		else if(data.event == "Delete Task"){
 			var del_item = document.getElementById(`data-row-${data.id}`);
