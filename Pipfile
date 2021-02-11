@@ -5,10 +5,11 @@ name = "pypi"
 
 [packages]
 django = "*"
-channels = "*"
 redis = "*"
 django-channels = "*"
 djangorestframework = "*"
+channels = "*"
+channels-redis = "*"
 
 [dev-packages]
 
