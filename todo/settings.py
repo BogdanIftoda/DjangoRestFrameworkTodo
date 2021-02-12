@@ -78,24 +78,24 @@ redis_host = os.environ.get('REDIS_HOST', 'localhost')
 WSGI_APPLICATION = 'todo.wsgi.application'
 ASGI_APPLICATION = 'todo.asgi.application'
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
-
 CHANNEL_LAYERS = {
-    "default": {
-        # This example app uses the Redis channel layer implementation channels_redis
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [(redis_host, 6379)],
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
         },
     },
 }
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         # This example app uses the Redis channel layer implementation channels_redis
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [(redis_host, 6379)],
+#         },
+#     },
+# }
 
 
 # Database
