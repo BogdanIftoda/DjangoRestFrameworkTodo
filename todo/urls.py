@@ -20,5 +20,10 @@ from api import views
 urlpatterns = [
     path('', views.index, name='home'),
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
+    path('api/v1/', include('api.urls')),
+    path('api-auth', include('rest_framework.urls')),
+    path('api/v1/rest-auth/', include('rest_auth.urls')),
+    path('api/v1/rest-auth/registration/', # new
+        include('rest_auth.registration.urls')),
+
 ]

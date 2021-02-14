@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
-import os
+# import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,9 +39,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
-    'rest_framework',
+    'django.contrib.sites', #
+
+
+    #3rd-party apps
     'channels',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'allauth', # new
+    'allauth.account', # new
+    'allauth.socialaccount', # new
+    'rest_auth',
+    'rest_auth.registration', # new
+    
+
+
+    #Local
+    'api',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -72,30 +89,30 @@ TEMPLATES = [
     },
 ]
 
-redis_host = os.environ.get('REDIS_HOST', 'localhost')
+# redis_host = os.environ.get('REDIS_HOST', 'localhost')
 
 
 WSGI_APPLICATION = 'todo.wsgi.application'
 ASGI_APPLICATION = 'todo.asgi.application'
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
-
 CHANNEL_LAYERS = {
-    "default": {
-        # This example app uses the Redis channel layer implementation channels_redis
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [(redis_host, 6379)],
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
         },
     },
 }
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         # This example app uses the Redis channel layer implementation channels_redis
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [(redis_host, 6379)],
+#         },
+#     },
+# }
 
 
 # Database
@@ -146,3 +163,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [ # new
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+
+SITE_ID = 1 

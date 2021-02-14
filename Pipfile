@@ -8,6 +8,8 @@ django = "*"
 djangorestframework = "*"
 channels = "*"
 channels-redis = "*"
+django-rest-auth = "*"
+django-allauth = "*"
 
 [dev-packages]
 

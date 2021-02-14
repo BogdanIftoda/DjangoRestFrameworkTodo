@@ -1,6 +1,9 @@
-from rest_framework.routers import DefaultRouter
-from .views import TaskViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register(r'tasks', TaskViewSet, basename='task')
-urlpatterns = router.urls
+from .views import TaskList, TaskDetail
+
+
+urlpatterns = [
+    path('<int:pk>/', TaskDetail.as_view()),
+    path('', TaskList.as_view()),
+]
