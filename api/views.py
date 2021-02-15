@@ -1,10 +1,11 @@
-# from rest_framework import viewsets
-from rest_framework import generics, permissions
-from .permissions import IsAuthorOrReadOnly
+from django.contrib.auth import get_user_model
+from rest_framework import viewsets
 from django.shortcuts import render
 
+
+from .permissions import IsAuthorOrReadOnly
 from .models import Task
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, UserSerializer
 
 
 def index(request):
@@ -12,12 +13,12 @@ def index(request):
 
 
 
-class TaskList(generics.ListCreateAPIView):
-    serializer_class = TaskSerializer
-    queryset = Task.objects.all()
-
-
-class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
+class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
     permission_classes = (IsAuthorOrReadOnly,)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = get_user_model().objects.all()
