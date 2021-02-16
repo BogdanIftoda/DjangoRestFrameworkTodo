@@ -39,18 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites', #
+    'django.contrib.sites',
 
 
     #3rd-party apps
     'channels',
     'rest_framework',
     'rest_framework.authtoken',
-    'allauth', # new
-    'allauth.account', # new
-    'allauth.socialaccount', # new
+    'allauth', 
+    'allauth.account', 
+    'allauth.socialaccount',
     'rest_auth',
-    'rest_auth.registration', # new
+    'rest_auth.registration',
     
 
 
