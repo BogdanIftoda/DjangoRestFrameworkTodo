@@ -90,7 +90,7 @@ TEMPLATES = [
 ]
 
 # redis_host = os.environ.get('REDIS_HOST', 'localhost')
-
+# docker run -p 6379:6379 -d redis
 
 WSGI_APPLICATION = 'todo.wsgi.application'
 ASGI_APPLICATION = 'todo.asgi.application'
