@@ -1,13 +1,35 @@
 from rest_framework import permissions
+from django.contrib.auth.models import Group
 
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
 
+    group_name = "Admin"
+
     def has_object_permission(self, request, view, obj):
-    # Read-only permissions are allowed for any request
+        
         if request.method in permissions.SAFE_METHODS:
             return True 
-    # Write permissions are only allowed to the author of a post
+
+        elif request.user and request.user.groups.filter(name=self.group_name):
+            if obj.owner.groups.filter(name=self.group_name):
+                return True
+            return False
+        
+        elif request.user and request.user.is_superuser:
+            return True 
+    
         return obj.owner == request.user
+    
 
 
+class IsGroupOrReadOnly(permissions.BasePermission):
+    pass
+    # group_name = "Admin"
+
+    # def has_permission(self, request, view):
+    #     try:
+    #         group = request.user.groups.get(name=self.group_name)
+    #     except Group.DoesNotExist:
+    #         return False
+    #     return group.name == self.group_name
