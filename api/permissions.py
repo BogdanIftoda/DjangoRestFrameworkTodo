@@ -22,14 +22,3 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         return obj.owner == request.user
     
 
-
-class IsGroupOrReadOnly(permissions.BasePermission):
-    pass
-    # group_name = "Admin"
-
-    # def has_permission(self, request, view):
-    #     try:
-    #         group = request.user.groups.get(name=self.group_name)
-    #     except Group.DoesNotExist:
-    #         return False
-    #     return group.name == self.group_name
