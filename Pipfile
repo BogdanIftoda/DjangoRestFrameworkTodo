@@ -10,6 +10,10 @@ channels = "*"
 channels-redis = "*"
 django-rest-auth = "*"
 django-allauth = "*"
+celery = "*"
+redis = "*"
+django-celery-beat = "*"
+django-celery-results = "*"
 
 [dev-packages]
 

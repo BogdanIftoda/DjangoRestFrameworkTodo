@@ -28,14 +28,11 @@ class TaskViewSet(viewsets.ModelViewSet):
 
         if request.user.is_authenticated:
             current_user_groups = request.user.groups.all()
-            print(request.user.groups.all())
             users = User.objects.filter(groups__in=current_user_groups)
 
             current = self.request.user
             queryset = Task.objects.all().filter(owner__in=users)
             serializer = TaskSerializer(queryset, many=True)
-            # queryset1 = User.objects.all().filter(groups=current.groups)
-            # serializer_2 = UserSerializer(queryset1)
             return Response(serializer.data)
 
         else:
@@ -62,8 +59,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
         if request.user.is_authenticated:
             queryset = User.objects.all()
-            print(request.user)
-            # print(User.objects.filter(groups))
             serializer = UserSerializer(queryset, many=True)
             return Response(serializer.data)
 
