@@ -175,6 +175,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
