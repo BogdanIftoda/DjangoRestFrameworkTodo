@@ -36,7 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'groups', 'email')
 
-
 class TaskSerializer(serializers.ModelSerializer):
 
     owner = OwnerField(choices=User.objects.all(), read_only=True)
