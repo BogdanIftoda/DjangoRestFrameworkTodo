@@ -13,8 +13,9 @@ class OwnerField(serializers.ChoiceField):
         }
         
     def to_internal_value(self, username):
+
         user = User.objects.filter(username=username).first()
-        print(user)
+        # print(user)
         return user
 
 
@@ -34,17 +35,16 @@ class UserSerializer(serializers.ModelSerializer):
         
         model = User
         fields = ('id', 'username', 'groups',)
-        # fields = '__all__'
 
 
 
 class TaskSerializer(serializers.ModelSerializer):
 
-    owner = OwnerField(choices=User.objects.all())
-
+    owner = OwnerField(choices=User.objects.all(), read_only=True)
+    
     class Meta:
 
         model = Task
         fields = ('id', 'title', 'created', 'owner',)
-        # fields = '__all__'
 
+    
