@@ -152,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -177,10 +177,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
+    # 'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
 }
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 
 SITE_ID = 1 
 
@@ -189,4 +187,12 @@ CELERY_TIMEZONE = "Europe/Kiev"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = 'redis://0.0.0.0:6379/0'
-# CELERY_RESULT_BACKEND = 'django-db'
+
+# Email configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+EMAIL_HOST_USER = 'bogdanrestapi@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = '********'

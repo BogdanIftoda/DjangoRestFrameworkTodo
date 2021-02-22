@@ -1,15 +1,30 @@
-import random
-import string
+import datetime
 
 from celery import shared_task
+from django.contrib.auth.models import User
 
-from django.contrib.auth.models import Group 
+from .models import Task
+from todo.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
+from datetime import datetime
 
 @shared_task
+def sending_email_task():
+    
+    tasks = Task.objects.all()
+    current_date = (datetime.now().timestamp()/60)
 
-def create_new_object():
-    random_name = ''.join([random.choice(string.ascii_letters) for _ in range(10)])
+    for task in tasks:
+        taskDate = (task.dueDate.timestamp())/60
 
-    new_object = Group.objects.create(name=random_name)
-    return new_object
+        if ((taskDate - current_date)) <= 120 and ((taskDate - current_date)) > 0:
+            
+            subject = 'Task {}'.format(task.title)
+            message = 'Task is not completed yet, {}'.format(task.dueDate)
+            if task.notified == False:
+                print(task)
+                if (send_mail(subject, message, EMAIL_HOST_USER, [task.owner.email], fail_silently=False)):
+                    # task.notified = True
+                    tasks.update(notified=True)
+                    

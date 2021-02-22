@@ -19,8 +19,8 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     'creating-new-projects':{
-        'task': 'api.tasks.create_new_object',
-        'schedule': 15.0,
+        'task': 'api.tasks.sending_email_task',
+        'schedule': 60.0,
     }
 }
 

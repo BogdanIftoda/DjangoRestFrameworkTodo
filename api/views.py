@@ -1,8 +1,9 @@
 from django.contrib.auth.models import Group, User
+from django.core.mail import send_mail
 from django.shortcuts import render
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
-from rest_framework import status
+from todo.settings import EMAIL_HOST_USER
 
 from .models import Task
 from .permissions import IsAuthorOrReadOnly
@@ -42,6 +43,8 @@ class TaskViewSet(viewsets.ModelViewSet):
         task = request.data
         current = self.request.user
         new_Task = Task.objects.create(owner=current, title=task["title"], dueDate=task["dueDate"])
+
+        # send_mail('About Task', 'Task created', EMAIL_HOST_USER, [current.email], fail_silently=False)
 
         new_Task.save()
 
