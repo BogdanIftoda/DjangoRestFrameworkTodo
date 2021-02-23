@@ -74,7 +74,7 @@
 					<div class="flex-wrapper">
 						<div style="flex: 6">
 							<input id="title" class="form-control" type="text" name="title" placeholder="Add task"><br>
-							<input id="owner" class="form-control" type="text" name="owner" placeholder="Add owner">
+							<input id="datetime" class="form-control" type="datetime-local" name="datetime">
 						</div>
 						<div style="flex: 1">
 							<input id="submit" class="btn" type="submit">
@@ -172,14 +172,14 @@
 			var csrftoken = '{{ csrf_token }}';
 
 			var title = document.getElementById('title').value
-			var owner = document.getElementById('owner').value
+			var dueDate = document.getElementById('datetime').value
 			fetch(url, {
 				method: 'POST',
 				headers: {
 					'Content-type': 'application/json',
 					'X-CSRFToken': csrftoken,
 				},
-				body: JSON.stringify({ 'title': title, 'owner': owner})
+				body: JSON.stringify({ 'title': title, 'dueDate': dueDate})
 			}
 			).then(function (response) {
 				document.getElementById('form').reset()
