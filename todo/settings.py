@@ -42,21 +42,21 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
 
-    #3rd-party apps
+    # 3rd-party apps
     'channels',
     'rest_framework',
     'rest_framework.authtoken',
-    'allauth', 
-    'allauth.account', 
+    'rest_framework_swagger',
+    'allauth',
+    'allauth.account',
     'allauth.socialaccount',
     'rest_auth',
     'rest_auth.registration',
     'django_celery_beat',
     'django_celery_results',
-    
 
 
-    #Local
+    # Local
     'api',
 
 
@@ -96,6 +96,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todo.wsgi.application'
 ASGI_APPLICATION = 'todo.asgi.application'
+
 
 CHANNEL_LAYERS = {
     'default': {
@@ -167,32 +168,38 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-
 REST_FRAMEWORK = {
+
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated', #AllowAny
+        'rest_framework.permissions.IsAuthenticated',
     ],
 
-    'DEFAULT_AUTHENTICATION_CLASSES': [ # new
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     # 'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
 }
 
-SITE_ID = 1 
-
+SITE_ID = 1
 # Celery Configuration Options
 CELERY_TIMEZONE = "Europe/Kiev"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = 'redis://0.0.0.0:6379/0'
 
-# Email configuration
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+# Email Configuration Options
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST_USER = 'bogdanrestapi@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = '********'
+
+# Swagger config
+SWAGGER_SETTINGS = {
+'LOGIN_URL': 'rest_framework:login',
+'LOGOUT_URL': 'rest_framework:logout',
+}

@@ -1,13 +1,13 @@
-import datetime
+
+from datetime import datetime
 
 from celery import shared_task
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from todo.settings import EMAIL_HOST_USER
 
 from .models import Task
-from todo.settings import EMAIL_HOST_USER
-from django.core.mail import send_mail
 
-from datetime import datetime
 
 @shared_task
 def sending_email_task():
@@ -25,6 +25,5 @@ def sending_email_task():
             if task.notified == False:
                 print(task)
                 if (send_mail(subject, message, EMAIL_HOST_USER, [task.owner.email], fail_silently=False)):
-                    # task.notified = True
                     tasks.update(notified=True)
                     
