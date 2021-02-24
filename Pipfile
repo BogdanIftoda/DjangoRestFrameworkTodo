@@ -8,6 +8,15 @@ django = "*"
 djangorestframework = "*"
 channels = "*"
 channels-redis = "*"
+django-rest-auth = "*"
+django-allauth = "*"
+celery = "*"
+redis = "*"
+django-celery-beat = "*"
+django-celery-results = "*"
+coreapi = "*"
+pyyaml = "*"
+django-rest-swagger = "*"
 
 [dev-packages]
 

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -13,17 +14,6 @@
 		body {
 			background: rgb(54, 217, 182);
 			background: linear-gradient(90deg, rgba(54, 217, 182, 1) 0%, rgba(32, 152, 126, 1) 43%, rgba(0, 212, 255, 1) 100%);
-		}
-
-
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		p {
-			font-family: 'Montserrat', sans-serif;
-
 		}
 
 
@@ -83,7 +73,8 @@
 				<form id="form" name="publish">
 					<div class="flex-wrapper">
 						<div style="flex: 6">
-							<input id="title" class="form-control" type="text" name="title" placeholder="Add task">
+							<input id="title" class="form-control" type="text" name="title" placeholder="Add task"><br>
+							<input id="datetime" class="form-control" type="datetime-local" name="datetime">
 						</div>
 						<div style="flex: 1">
 							<input id="submit" class="btn" type="submit">
@@ -104,7 +95,7 @@
 			console.log('document ready');
 
 			var wrapper = document.getElementById('task_text')
-			var url = 'http://127.0.0.1:8000/api/tasks/'
+			var url = 'http://127.0.0.1:8000/api/v1/tasks/'
 
 			fetch(url)
 				.then((resp) => resp.json())
@@ -176,18 +167,19 @@
 		form.addEventListener('submit', function (e) {
 			e.preventDefault()
 			console.log('Form submitted')
-			var url = 'http://127.0.0.1:8000/api/tasks/'
+			var url = 'http://127.0.0.1:8000/api/v1/tasks/'
 
 			var csrftoken = '{{ csrf_token }}';
 
 			var title = document.getElementById('title').value
+			var dueDate = document.getElementById('datetime').value
 			fetch(url, {
 				method: 'POST',
 				headers: {
 					'Content-type': 'application/json',
 					'X-CSRFToken': csrftoken,
 				},
-				body: JSON.stringify({ 'title': title })
+				body: JSON.stringify({ 'title': title, 'dueDate': dueDate})
 			}
 			).then(function (response) {
 				document.getElementById('form').reset()

@@ -1,12 +1,12 @@
-from rest_framework.routers import DefaultRouter
-from .views import TaskViewSet, UserList, UserDetail
-from django.urls import path, include
+from django.urls import path
+from rest_framework.routers import SimpleRouter
 
-router = DefaultRouter()
-router.register(r'tasks', TaskViewSet, basename='task')
+from .views import TaskViewSet, UserViewSet, GroupViewSet
 
-urlpatterns = [
-    path('', include(router.urls)),
-    path('users/', UserList.as_view(), name='userList'), 
-    path('users/<int:pk>', UserDetail.as_view(), name='userDetail'),
-]
+
+router = SimpleRouter()
+router.register('users', UserViewSet, basename='users')
+router.register('groups', GroupViewSet, basename='groups')
+router.register('tasks', TaskViewSet, basename='tasks')
+
+urlpatterns = router.urls
